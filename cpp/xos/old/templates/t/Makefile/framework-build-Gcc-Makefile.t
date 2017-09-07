@@ -51,27 +51,31 @@
 %Depends,%(%else-then(%Depends%,%(%depends%)%)%)%,%
 %DEPENDS,%(%else-then(%DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
 %depends,%(%else-then(%_Depends%,%(%tolower(%Depends%)%)%)%)%,%
-%framework,%(%else-then(%framework%,%(Framework)%)%)%,%
+%framework,%(%else-then(%framework%,%()%)%)%,%
 %Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
 %FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
 %framework,%(%else-then(%_Framework%,%(%tolower(%Framework%)%)%)%)%,%
-%target,%(%else-then(%target%,%(%Framework%)%)%)%,%
+%target,%(%else-then(%target%,%()%)%)%,%
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
-%os,%(%else-then(%os%,%(Os)%)%)%,%
+%os,%(%else-then(%os%,%()%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
+%makefile,%(%else-then(%makefile%,%(Makefile)%)%)%,%
+%Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
+%MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
+%makefile,%(%else-then(%_Makefile%,%(%tolower(%Makefile%)%)%)%)%,%
 %extension,%(%else-then(%extension%,%(%fileextension(%file%)%)%)%)%,%
 %Extension,%(%else-then(%Extension%,%(%extension%)%)%)%,%
 %EXTENSION,%(%else-then(%EXTENSION%,%(%toupper(%Extension%)%)%)%)%,%
 %extension,%(%else-then(%_Extension%,%(%tolower(%Extension%)%)%)%)%,%
-%file,%(%else-then(%file%,%(Makefile)%)%)%,%
+%file,%(%else-then(%file%,%(%Makefile%)%)%)%,%
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(build Gcc Makefile for %Framework%)%)%)%,%
+%title,%(%else-then(%title%,%(build Gcc %Makefile%%then-if(%Framework%, for )%)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
@@ -125,7 +129,7 @@
 %FRAMEWORK_LIBS,%(%else-then(%FRAMEWORK_LIBS%,%(%toupper(%Framework_LIBS%)%)%)%)%,%
 %framework_LIBS,%(%else-then(%_Framework_LIBS%,%(%tolower(%Framework_LIBS%)%)%)%)%,%
 %%(%
-%%include(%filepath%/Makefile-file.t)%%
-%%include(%filepath%/framework-build-Gcc-Makefile-depends.t)%%
-%%include(%filepath%/framework-Gcc-Makefile.t)%%
+%%include(%Filepath%/Makefile-file.t)%%
+%%include(%Filepath%/framework-build-Gcc-Makefile-depends.t)%%
+%%include(%Filepath%/framework-Gcc-Makefile.t)%%
 %)%)%

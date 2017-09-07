@@ -13,17 +13,30 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-os-Gcc-Makedefines.t
+%#   File: framework-build-Gcc-Makefile-depends.t
 %#
 %# Author: $author$
 %#   Date: 7/16/2017
 %########################################################################
 %with(%
-%filepath,%(%else-then(%filepath%,%(%filepath(%input%)%)%)%)%,%
-%Filepath,%(%else-then(%Filepath%,%(%filepath%)%)%)%,%
-%FILEPATH,%(%else-then(%FILEPATH%,%(%toupper(%Filepath%)%)%)%)%,%
-%filepath,%(%else-then(%_Filepath%,%(%tolower(%Filepath%)%)%)%)%,%
 %%(%
-%%include(%Filepath%/framework-Gcc-Makedefines.t)%%
-%)%)%
+%%parse(%Depends%,;,,,,%(%parse(%Depends%,%(,)%,,,,%(
+########################################################################
+# %Depends%
+%Build%%Depends%_USRDEFINES += \
+%Depends_USRDEFINES%
 
+%Build%%Depends%_USRINCLUDES += \
+%Depends_USRINCLUDES%
+
+%Build%%Depends%_USRCXXFLAGS += \
+%Depends_USRCXXFLAGS%
+
+%Build%%Depends%_USRLIBDIRS += \
+%Depends_USRLIBDIRS%
+
+%Build%%Depends%_LIBS += \
+%Depends_LIBS%
+
+)%,Depends)%)%,Depends)%%
+%)%)%

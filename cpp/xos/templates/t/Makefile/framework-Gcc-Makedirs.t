@@ -47,6 +47,22 @@
 %Day,%(%else-then(%Day%,%(%day%)%)%)%,%
 %DAY,%(%else-then(%DAY%,%(%toupper(%Day%)%)%)%)%,%
 %day,%(%else-then(%_Day%,%(%tolower(%Day%)%)%)%)%,%
+%depends,%(%else-then(%depends%,%(depends)%)%)%,%
+%Depends,%(%else-then(%Depends%,%(%depends%)%)%)%,%
+%DEPENDS,%(%else-then(%DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%depends,%(%else-then(%_Depends%,%(%tolower(%Depends%)%)%)%)%,%
+%framework,%(%else-then(%framework%,%(framework)%)%)%,%
+%Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
+%FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
+%framework,%(%else-then(%_Framework%,%(%tolower(%Framework%)%)%)%)%,%
+%target,%(%else-then(%target%,%()%)%)%,%
+%Target,%(%else-then(%Target%,%(%target%)%)%)%,%
+%TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
+%target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
+%os,%(%else-then(%os%,%()%)%)%,%
+%Os,%(%else-then(%Os%,%(%os%)%)%)%,%
+%OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
+%os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
 %makefile,%(%else-then(%makefile%,%(Makedirs)%)%)%,%
 %Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
 %MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
@@ -59,7 +75,7 @@
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(Gcc %Makefile%)%)%)%,%
+%title,%(%else-then(%title%,%(generic Gcc %Makefile%)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%

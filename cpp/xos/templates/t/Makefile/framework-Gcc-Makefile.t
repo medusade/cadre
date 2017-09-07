@@ -13,10 +13,10 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-Gcc-Makedirs.t
+%#   File: framework-Gcc-Makefile.t
 %#
 %# Author: $author$
-%#   Date: 7/21/2017
+%#   Date: 7/16/2017
 %########################################################################
 %with(%
 %filepath,%(%else-then(%filepath%,%(%filepath(%input%)%)%)%)%,%
@@ -47,7 +47,23 @@
 %Day,%(%else-then(%Day%,%(%day%)%)%)%,%
 %DAY,%(%else-then(%DAY%,%(%toupper(%Day%)%)%)%)%,%
 %day,%(%else-then(%_Day%,%(%tolower(%Day%)%)%)%)%,%
-%makefile,%(%else-then(%makefile%,%(Makedirs)%)%)%,%
+%depends,%(%else-then(%depends%,%()%)%)%,%
+%Depends,%(%else-then(%Depends%,%(%depends%)%)%)%,%
+%DEPENDS,%(%else-then(%DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%depends,%(%else-then(%_Depends%,%(%tolower(%Depends%)%)%)%)%,%
+%framework,%(%else-then(%framework%,%(framework)%)%)%,%
+%Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
+%FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
+%framework,%(%else-then(%_Framework%,%(%tolower(%Framework%)%)%)%)%,%
+%target,%(%else-then(%target%,%()%)%)%,%
+%Target,%(%else-then(%Target%,%(%target%)%)%)%,%
+%TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
+%target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
+%os,%(%else-then(%os%,%()%)%)%,%
+%Os,%(%else-then(%Os%,%(%os%)%)%)%,%
+%OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
+%os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
+%makefile,%(%else-then(%makefile%,%(Makefile)%)%)%,%
 %Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
 %MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
 %makefile,%(%else-then(%_Makefile%,%(%tolower(%Makefile%)%)%)%)%,%
@@ -59,34 +75,71 @@
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(Gcc %Makefile%)%)%)%,%
+%title,%(%else-then(%title%,%(generic Gcc %Makefile%%then-if(%Framework%, for )%)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%all:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir" ; \
-		(cd $$dir && make) || (echo "Make $$dir Failed") ; \
-	done
+%
+%FRAMEWORK%_PKG = ${PKG}
+%FRAMEWORK%_SRC = ${%FRAMEWORK%_PKG}/src
+%FRAMEWORK%_BLD = ${%FRAMEWORK%_PKG}/${BLD}/${BUILD_TYPE}
+%FRAMEWORK%_LIB = ${%FRAMEWORK%_BLD}/lib
+%FRAMEWORK%_BIN = ${%FRAMEWORK%_BLD}/bin
 
-install:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir install" ; \
-		(cd $$dir && make install) || (echo "Make $$dir install Failed") ; \
-	done
+%parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%(%
+%########################################################################
+# %Depends%
+%DEPENDS%_PKG = ${%FRAMEWORK%_PKG}/../../../%Depends%/cpp/xos
+%DEPENDS%_SRC = ${%DEPENDS%_PKG}/src
+%DEPENDS%_BLD = ${%DEPENDS%_PKG}/${BLD}/${BUILD_TYPE}
+%DEPENDS%_LIB = ${%DEPENDS%_BLD}/lib
+%DEPENDS%_BIN = ${%DEPENDS%_BLD}/bin
 
-clean:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir clean" ; \
-		(cd $$dir && make clean) || (echo "Make $$dir clean Failed") ; \
-	done
+)%)%)%,Depends)%
+########################################################################
+# %Framework%
+%Framework%_USRDEFINES += \
+%parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%()%)%)%,Depends)%%
+%${build_%Framework%_USRDEFINES} \
 
-again:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir again" ; \
-		(cd $$dir && make again) || (echo "Make $$dir again Failed") ; \
-	done
+%Framework%_USRINCLUDES += \
+-I${%FRAMEWORK%_SRC} \
+%reverse-parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%(-I${%DEPENDS%_SRC} \
+)%)%)%,Depends)%%
+%${build_%Framework%_USRINCLUDES} \
+
+%Framework%_USRCXXFLAGS += \
+${build_%Framework%_USRCXXFLAGS} \
+
+%Framework%_USRLIBDIRS += \
+-L${%FRAMEWORK%_LIB} \
+%reverse-parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%(-L${%DEPENDS%_LIB} \
+)%)%)%,Depends)%%
+%${build_%Framework%_USRLIBDIRS} \
+
+%Framework%_LIBS += \
+-l%Framework% \
+%reverse-parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%(-l%Depends% \
+)%)%)%,Depends)%%
+%${build_%Framework%_LIBS} \
+
+########################################################################
 %
 %)%)%

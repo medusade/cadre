@@ -13,10 +13,10 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-Gcc-Makedirs.t
+%#   File: framework-build-Gcc-Makefile.t
 %#
 %# Author: $author$
-%#   Date: 7/21/2017
+%#   Date: 7/15/2017
 %########################################################################
 %with(%
 %filepath,%(%else-then(%filepath%,%(%filepath(%input%)%)%)%)%,%
@@ -47,7 +47,23 @@
 %Day,%(%else-then(%Day%,%(%day%)%)%)%,%
 %DAY,%(%else-then(%DAY%,%(%toupper(%Day%)%)%)%)%,%
 %day,%(%else-then(%_Day%,%(%tolower(%Day%)%)%)%)%,%
-%makefile,%(%else-then(%makefile%,%(Makedirs)%)%)%,%
+%depends,%(%else-then(%depends%,%(depends)%)%)%,%
+%Depends,%(%else-then(%Depends%,%(%depends%)%)%)%,%
+%DEPENDS,%(%else-then(%DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%depends,%(%else-then(%_Depends%,%(%tolower(%Depends%)%)%)%)%,%
+%framework,%(%else-then(%framework%,%(framework)%)%)%,%
+%Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
+%FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
+%framework,%(%else-then(%_Framework%,%(%tolower(%Framework%)%)%)%)%,%
+%target,%(%else-then(%target%,%()%)%)%,%
+%Target,%(%else-then(%Target%,%(%target%)%)%)%,%
+%TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
+%target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
+%os,%(%else-then(%os%,%()%)%)%,%
+%Os,%(%else-then(%Os%,%(%os%)%)%)%,%
+%OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
+%os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
+%makefile,%(%else-then(%makefile%,%(Makedefines)%)%)%,%
 %Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
 %MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
 %makefile,%(%else-then(%_Makefile%,%(%tolower(%Makefile%)%)%)%)%,%
@@ -59,34 +75,25 @@
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(Gcc %Makefile%)%)%)%,%
+%title,%(%else-then(%title%,%(build Gcc %Makefile%%then-if(%Framework%, for )%)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%all:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir" ; \
-		(cd $$dir && make) || (echo "Make $$dir Failed") ; \
-	done
+%#
+# build OS
+#
+ifndef OS
+OS = linux
+endif
 
-install:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir install" ; \
-		(cd $$dir && make install) || (echo "Make $$dir install Failed") ; \
-	done
+#
+# install directory
+#
+ifndef INS
+INS = ${HOME}/build/nadir
+endif
 
-clean:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir clean" ; \
-		(cd $$dir && make clean) || (echo "Make $$dir clean Failed") ; \
-	done
-
-again:
-	@for dir in $(SRC_DIRS); do \
-		echo "Make $$dir again" ; \
-		(cd $$dir && make again) || (echo "Make $$dir again Failed") ; \
-	done
 %
 %)%)%
