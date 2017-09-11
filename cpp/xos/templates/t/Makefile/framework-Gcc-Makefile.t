@@ -63,6 +63,14 @@
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
+%language,%(%else-then(%language%,%(cpp)%)%)%,%
+%Language,%(%else-then(%Language%,%(%language%)%)%)%,%
+%LANGUAGE,%(%else-then(%LANGUAGE%,%(%toupper(%Language%)%)%)%)%,%
+%language,%(%else-then(%_Language%,%(%tolower(%Language%)%)%)%)%,%
+%style,%(%else-then(%style%,%(xos)%)%)%,%
+%Style,%(%else-then(%Style%,%(%style%)%)%)%,%
+%STYLE,%(%else-then(%STYLE%,%(%toupper(%Style%)%)%)%)%,%
+%style,%(%else-then(%_Style%,%(%tolower(%Style%)%)%)%)%,%
 %makefile,%(%else-then(%makefile%,%(Makefile)%)%)%,%
 %Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
 %MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
@@ -94,7 +102,7 @@
 %%(%
 %########################################################################
 # %Depends%
-%DEPENDS%_PKG = ${%FRAMEWORK%_PKG}/../../../%Depends%/cpp/xos
+%DEPENDS%_PKG = ${%FRAMEWORK%_PKG}/../../../%Depends%/%Language%/%Style%
 %DEPENDS%_SRC = ${%DEPENDS%_PKG}/src
 %DEPENDS%_BLD = ${%DEPENDS%_PKG}/${BLD}/${BUILD_TYPE}
 %DEPENDS%_LIB = ${%DEPENDS%_BLD}/lib

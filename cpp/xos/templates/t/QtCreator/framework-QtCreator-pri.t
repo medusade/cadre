@@ -63,6 +63,14 @@
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
+%language,%(%else-then(%language%,%(cpp)%)%)%,%
+%Language,%(%else-then(%Language%,%(%language%)%)%)%,%
+%LANGUAGE,%(%else-then(%LANGUAGE%,%(%toupper(%Language%)%)%)%)%,%
+%language,%(%else-then(%_Language%,%(%tolower(%Language%)%)%)%)%,%
+%style,%(%else-then(%style%,%(xos)%)%)%,%
+%Style,%(%else-then(%Style%,%(%style%)%)%)%,%
+%STYLE,%(%else-then(%STYLE%,%(%toupper(%Style%)%)%)%)%,%
+%style,%(%else-then(%_Style%,%(%tolower(%Style%)%)%)%)%,%
 %pro,%(%else-then(%pro%,%(pri)%)%)%,%
 %Pro,%(%else-then(%Pro%,%(%pro%)%)%)%,%
 %PRO,%(%else-then(%PRO%,%(%toupper(%Pro%)%)%)%)%,%
@@ -95,7 +103,7 @@ OTHER_BLD = ..
 %%(%
 %########################################################################
 # %Depends%
-%DEPENDS%_PKG = $${OTHER_PKG}/%Depends%/cpp/xos
+%DEPENDS%_PKG = $${OTHER_PKG}/%Depends%/%Language%/%Style%
 %DEPENDS%_PRJ = $${%DEPENDS%_PKG}
 %DEPENDS%_SRC = $${%DEPENDS%_PKG}/src
 
