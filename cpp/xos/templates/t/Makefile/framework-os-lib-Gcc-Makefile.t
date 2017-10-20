@@ -13,7 +13,7 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-generic-lib-Gcc-Makefile.t
+%#   File: framework-os-lib-Gcc-Makefile.t
 %#
 %# Author: $author$
 %#   Date: 8/30/2017

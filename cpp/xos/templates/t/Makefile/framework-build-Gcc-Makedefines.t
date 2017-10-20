@@ -92,7 +92,7 @@ endif
 # install directory
 #
 ifndef INS
-INS = ${HOME}/build/nadir
+INS = ${HOME}/build/%Framework%
 endif
 
 %

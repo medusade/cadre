@@ -71,6 +71,10 @@
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
+%exe,%(%else-then(%exe%,%(%else(%Lib%,%(%if(%equal(%Target%,%Framework%)%,%(_exe)%)%)%)%)%)%)%,%
+%Exe,%(%else-then(%Exe%,%(%exe%)%)%)%,%
+%EXE,%(%else-then(%EXE%,%(%toupper(%Exe%)%)%)%)%,%
+%exe,%(%else-then(%_Exe%,%(%tolower(%Exe%)%)%)%)%,%
 %os,%(%else-then(%os%,%()%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
@@ -97,32 +101,32 @@
 #
 # target
 #
-%Target%_%OUT%TARGET = %Target%%then-if(%if(%LIB%,%(${LIBEXT})%)%,.)%
+%Target%%Exe%_%OUT%TARGET = %Target%%then-if(%if(%LIB%,%(${LIBEXT})%)%,.)%
 
 ########################################################################
 
 #
 # user c++ flags
 #
-%Target%_USRCXXFLAGS += \
+%Target%%Exe%_USRCXXFLAGS += \
 ${%Framework%_USRCXXFLAGS} \
 
 #
 # user defines
 #
-%Target%_USRDEFINES += \
+%Target%%Exe%_USRDEFINES += \
 ${%Framework%_USRDEFINES} \
 
 #
 # user includes
 #
-%Target%_USRINCLUDES += \
+%Target%%Exe%_USRINCLUDES += \
 ${%Framework%_USRINCLUDES} \
 
 #
 # user libdirs
 #
-%Target%_USRLIBDIRS += \
+%Target%%Exe%_USRLIBDIRS += \
 ${%Framework%_USRLIBDIRS} \
 
 ########################################################################
@@ -130,7 +134,7 @@ ${%Framework%_USRLIBDIRS} \
 %parse(c;cc;cxx;cpp;m;mm,;,,,,%(#
 # %Output% .%cpp% sources
 #
-#%Target%_%OUT%_%toupper(%cpp%)%_SOURCES += \
+#%Target%%Exe%_%OUT%_%toupper(%cpp%)%_SOURCES += \
 #${%FRAMEWORK%_SRC}/%Framework%/base/Base.%cpp% \
 
 )%,cpp)%
@@ -139,7 +143,7 @@ ${%Framework%_USRLIBDIRS} \
 %else(%Lib%,%(#
 # %Output% libraries
 #
-%Target%_LIBS += \
+%Target%%Exe%_LIBS += \
 ${%Framework%_LIBS}
 )%)%
 %

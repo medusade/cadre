@@ -13,7 +13,7 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-generic-target-Gcc-Makefile.t
+%#   File: framework-os-target-Gcc-Makefile.t
 %#
 %# Author: $author$
 %#   Date: 8/30/2017
@@ -71,6 +71,10 @@
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
+%exe,%(%else-then(%exe%,%(%else(%Lib%,%(%if(%equal(%Target%,%Framework%)%,%(_exe)%)%)%)%)%)%)%,%
+%Exe,%(%else-then(%Exe%,%(%exe%)%)%)%,%
+%EXE,%(%else-then(%EXE%,%(%toupper(%Exe%)%)%)%)%,%
+%exe,%(%else-then(%_Exe%,%(%tolower(%Exe%)%)%)%)%,%
 %os,%(%else-then(%os%,%(Linux)%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
@@ -110,7 +114,7 @@ include $(PKG)/$(MAK)/%if(%Lib%,lib,app)%/%Target%/Makefile
 #
 # target
 #
-%OUT%TARGET = ${%Target%_%OUT%TARGET}
+%OUT%TARGET = ${%Target%%Exe%_%OUT%TARGET}
 
 ########################################################################
 
@@ -118,37 +122,37 @@ include $(PKG)/$(MAK)/%if(%Lib%,lib,app)%/%Target%/Makefile
 # user defines
 #
 USRDEFINES += \
-${%Target%_USRDEFINES}
+${%Target%%Exe%_USRDEFINES}
 
 #
 # user includes
 #
 USRINCLUDES += \
-${%Target%_USRINCLUDES}
+${%Target%%Exe%_USRINCLUDES}
 
 #
 # user libdirs
 #
 USRLIBDIRS += \
-${%Target%_USRLIBDIRS}
+${%Target%%Exe%_USRLIBDIRS}
 
 #
 # user c++ flags
 #
 USRCXXFLAGS += \
-${%Target%_USRCXXFLAGS}
+${%Target%%Exe%_USRCXXFLAGS}
 
 #
 # user c flags
 #
 USRCFLAGS += \
-${%Target%_USRCFLAGS}
+${%Target%%Exe%_USRCFLAGS}
 
 #
 # user ld flags
 #
 USRLDFLAGS += \
-${%Target%_USRLDFLAGS}
+${%Target%%Exe%_USRLDFLAGS}
 
 ########################################################################
 
@@ -156,37 +160,37 @@ ${%Target%_USRLDFLAGS}
 # %Output% C sources
 #
 %OUT%_C_SOURCES += \
-${%Target%_%OUT%_C_SOURCES}
+${%Target%%Exe%_%OUT%_C_SOURCES}
 
 #
 # %Output% C++ .cc sources
 #
 %OUT%_CC_SOURCES += \
-${%Target%_%OUT%_CC_SOURCES}
+${%Target%%Exe%_%OUT%_CC_SOURCES}
 
 #
 # %Output% C++ .cxx sources
 #
 %OUT%_CXX_SOURCES += \
-${%Target%_%OUT%_CXX_SOURCES}
+${%Target%%Exe%_%OUT%_CXX_SOURCES}
 
 #
 # %Output% C++ .cpp sources
 #
 %OUT%_CPP_SOURCES += \
-${%Target%_%OUT%_CPP_SOURCES}
+${%Target%%Exe%_%OUT%_CPP_SOURCES}
 
 #
 # %Output% Objective C .m sources
 #
 %OUT%_M_SOURCES += \
-${%Target%_%OUT%_M_SOURCES}
+${%Target%%Exe%_%OUT%_M_SOURCES}
 
 #
 # %Output% Objective C++ .mm sources
 #
 %OUT%_MM_SOURCES += \
-${%Target%_%OUT%_MM_SOURCES}
+${%Target%%Exe%_%OUT%_MM_SOURCES}
 
 %else(%Lib%,%(%
 %########################################################################
@@ -195,7 +199,7 @@ ${%Target%_%OUT%_MM_SOURCES}
 # %Output% libraries
 #
 LIBS += \
-${%Target%_LIBS}
+${%Target%%Exe%_LIBS}
 
 )%)%########################################################################
 

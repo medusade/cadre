@@ -23,33 +23,69 @@
 
 /**
  **********************************************************************
- * Function: getFormValue
+ * Function: getFormFieldValue
  **********************************************************************
  */
-function getFormValue(name, form) {
+function getFormFieldValue(name, form) {
     if (!form) {
 		form = 'form';
     }
     if (name) {
-        if ((value = document[form][name].value)) {
-            return value;
-        } else {
-            len = document[form][name].length;
-            if (0 < len) {
-                for (i = 0; i < len; i++) {
-                    if (document[form][name][i].checked) {
-                        if ((value = document[form][name][i].value)) {
-                            return value;
+        if ((field = document[form][name])) {
+            if ((value = field.value)) {
+                return value;
+            } else {
+                len = field.length;
+                if (0 < len) {
+                    for (i = 0; i < len; i++) {
+                        if (field[i].checked) {
+                            if ((value = field[i].value)) {
+                                return value;
+                            }
                         }
                     }
                 }
             }
         }
-        alert("failed on getFormValue(" + name + ", " + form + ")");
     } else {
-        alert("failed on getFormValue(0, " + form + ")");
+        alert("failed on getFormFieldValue(0, '" + form + "')");
     }
 	return '';
+}
+
+/**
+ **********************************************************************
+ * Function: getFormValue
+ **********************************************************************
+ */
+function getFormValue(name, form) {
+    if (!form) {
+        form = 'form';
+    }
+    if (name) {
+        if ((value = getFormFieldValue(name, form))) {
+            return value;
+        }
+        alert("failed on getFormValue('" + name + "', '" + form + "')");
+    } else {
+        alert("failed on getFormValue(0, '" + form + "')");
+    }
+    return '';
+}
+
+/**
+ **********************************************************************
+ * Function: getFormValue2
+ **********************************************************************
+ */
+function getFormValue2(name1, name2, form) {
+    if ((value = getFormFieldValue(name1, form))) {
+        return value;
+    }
+    if ((value = getFormValue(name2, form))) {
+        return value;
+    }
+    return '';
 }
 
 /**
@@ -61,14 +97,16 @@ function setFormSubmit(action, method, form) {
     if (!form) {
         form = 'form';
     }
-    if (action) {
-        if ('' != action) {
-            document[form].action = action;
+    if ((field = document[form])) {
+        if (action) {
+            if ('' != action) {
+                field.action = action;
+            }
         }
-    }
-    if (method) {
-        if ('' != method) {
-            document[form].method = method;
+        if (method) {
+            if ('' != method) {
+                field.method = method;
+            }
         }
     }
     return true;
@@ -83,26 +121,28 @@ function setFormSubmit2(action1, action2, method, form) {
     if (!form) {
         form = 'form';
     }
-    if (action1) {
-        if ('' != action1) {
-		    document[form].action = action1;
+    if ((field = document[form])) {
+        if (action1) {
+            if ('' != action1) {
+                field.action = action1;
+            } else {
+                if (action2) {
+                    if ('' != action2) {
+                        field.action = action2;
+                    }
+                }
+            }
         } else {
             if (action2) {
                 if ('' != action2) {
-                    document[form].action = action2;
+                    field.action = action2;
                 }
             }
-		}
-    } else {
-        if (action2) {
-            if ('' != action2) {
-                document[form].action = action2;
-            }
         }
-    }
-    if (method) {
-        if ('' != method) {
-            document[form].method = method;
+        if (method) {
+            if ('' != method) {
+                field.method = method;
+            }
         }
     }
     return true;

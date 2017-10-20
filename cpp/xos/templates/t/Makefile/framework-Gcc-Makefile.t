@@ -99,6 +99,7 @@
 %parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%depends,%(%else-then(%_depends%,%(%tolower(%Depends%)%)%)%)%,%
 %%(%
 %########################################################################
 # %Depends%
