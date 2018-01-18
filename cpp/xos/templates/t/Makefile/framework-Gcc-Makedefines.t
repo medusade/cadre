@@ -81,7 +81,11 @@
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%ifndef BUILD_TYPE
+%ifndef BUILD_HOME
+BUILD_HOME = $(HOME)
+endif
+
+ifndef BUILD_TYPE
 BUILD_TYPE = Debug
 endif
 
@@ -93,8 +97,16 @@ DBGFLAGS = -D_RELEASE
 BUILD_DEFINE = -DRELEASE_BUILD
 endif
 
+ifndef UNAME
+UNAME = $(shell uname)
+endif
+
 ifndef OS
+ifneq ($(UNAME), Darwin)
 OS = linux
+else
+OS = macosx
+endif
 endif
 
 ifndef BLD
@@ -102,7 +114,7 @@ BLD = build/$(OS)
 endif
 
 ifndef INS
-INS = $(HOME)/$(BLD)
+INS = $(BUILD_HOME)/$(BLD)
 endif
 
 PKGROOT = $(PKG)

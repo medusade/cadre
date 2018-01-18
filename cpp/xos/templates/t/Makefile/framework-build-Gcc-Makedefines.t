@@ -82,17 +82,39 @@
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
 %#
+# build HOME
+#
+ifndef BUILD_HOME
+ifdef PKG
+BUILD_HOME = $(PKG)/../..
+else
+BUILD_HOME = $(HOME)
+endif
+endif
+
+#
+# build UNAME
+#
+ifndef UNAME
+UNAME = $(shell uname)
+endif
+
+#
 # build OS
 #
 ifndef OS
+ifneq ($(UNAME), Darwin)
 OS = linux
+else
+OS = macosx
+endif
 endif
 
 #
 # install directory
 #
 ifndef INS
-INS = ${HOME}/build/%Framework%
+INS = $(BUILD_HOME)/build/%Framework%
 endif
 
 %

@@ -104,5 +104,62 @@ again:
 		echo "Make $$dir again" ; \
 		(cd $$dir && make again) || (echo "Make $$dir again Failed") ; \
 	done
+	
+########################################################################
+
+help:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir help" ; \
+		(cd $$dir && make help) || (echo "Make $$dir help Failed") ; \
+	done
+
+install-links:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir install-links" ; \
+		(cd $$dir && make install-links) || (echo "Make $$dir install-links Failed") ; \
+	done
+
+build:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir build" ; \
+		(cd $$dir && make build) || (echo "Make $$dir build Failed") ; \
+	done
+
+config:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir config" ; \
+		(cd $$dir && make config) || (echo "Make $$dir config Failed") ; \
+	done
+
+unconfig:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir unconfig" ; \
+		(cd $$dir && make unconfig) || (echo "Make $$dir unconfig Failed") ; \
+	done
+
+extract:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir extract" ; \
+		(cd $$dir && make extract) || (echo "Make $$dir extract Failed") ; \
+	done
+
+unextract:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir unextract" ; \
+		(cd $$dir && make unextract) || (echo "Make $$dir unextract Failed") ; \
+	done
+
+extract-patch:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir extract-patch" ; \
+		(cd $$dir && make extract-patch) || (echo "Make $$dir extract-patch Failed") ; \
+	done
+
+extract-docs:
+	@for dir in $(SRC_DIRS); do \
+		echo "Make $$dir extract-docs" ; \
+		(cd $$dir && make extract-docs) || (echo "Make $$dir extract-docs Failed") ; \
+	done
+
 %
 %)%)%

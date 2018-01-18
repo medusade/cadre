@@ -13,10 +13,10 @@
 %# or otherwise) arising in any way out of the use of this software, 
 %# even if advised of the possibility of such damage.
 %#
-%#   File: framework-os-target-Gcc-Makefile.t
+%#   File: meta-framework-Gcc-Makedefines.t
 %#
 %# Author: $author$
-%#   Date: 8/30/2017
+%#   Date: 12/24/2017
 %########################################################################
 %with(%
 %filepath,%(%else-then(%filepath%,%(%filepath(%input%)%)%)%)%,%
@@ -55,31 +55,15 @@
 %Framework,%(%else-then(%Framework%,%(%framework%)%)%)%,%
 %FRAMEWORK,%(%else-then(%FRAMEWORK%,%(%toupper(%Framework%)%)%)%)%,%
 %framework,%(%else-then(%_Framework%,%(%tolower(%Framework%)%)%)%)%,%
-%out,%(%else-then(%out%,%(Lib)%)%)%,%
-%Out,%(%else-then(%Out%,%(%out%)%)%)%,%
-%OUT,%(%else-then(%OUT%,%(%toupper(%Out%)%)%)%)%,%
-%out,%(%else-then(%_Out%,%(%tolower(%Out%)%)%)%)%,%
-%lib,%(%else-then(%lib%,%(%else(%equal(EXE,%OUT%)%,Lib)%)%)%)%,%
-%Lib,%(%else-then(%Lib%,%(%lib%)%)%)%,%
-%LIB,%(%else-then(%LIB%,%(%toupper(%Lib%)%)%)%)%,%
-%lib,%(%else-then(%_Lib%,%(%tolower(%Lib%)%)%)%)%,%
-%output,%(%else-then(%output%,%(%else(%Lib%%Slib%,Executable,Library)%)%)%)%,%
-%Output,%(%else-then(%Output%,%(%output%)%)%)%,%
-%OUTPUT,%(%else-then(%OUTPUT%,%(%toupper(%Output%)%)%)%)%,%
-%output,%(%else-then(%_Output%,%(%tolower(%Output%)%)%)%)%,%
-%target,%(%else-then(%target%,%(%lib%%Framework%)%)%)%,%
+%target,%(%else-then(%target%,%()%)%)%,%
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
-%exe,%(%else-then(%exe%,%(%else(%Lib%,%(%if(%equal(%Target%,%Framework%)%,%(_exe)%)%)%)%)%)%)%,%
-%Exe,%(%else-then(%Exe%,%(%exe%)%)%)%,%
-%EXE,%(%else-then(%EXE%,%(%toupper(%Exe%)%)%)%)%,%
-%exe,%(%else-then(%_Exe%,%(%tolower(%Exe%)%)%)%)%,%
-%os,%(%else-then(%os%,%(%else-then(%Os_input%,%(Linux)%)%)%)%)%,%
+%os,%(%else-then(%os%,%()%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
-%makefile,%(%else-then(%makefile%,%(Makefile)%)%)%,%
+%makefile,%(%else-then(%makefile%,%(Makedefines)%)%)%,%
 %Makefile,%(%else-then(%Makefile%,%(%makefile%)%)%)%,%
 %MAKEFILE,%(%else-then(%MAKEFILE%,%(%toupper(%Makefile%)%)%)%)%,%
 %makefile,%(%else-then(%_Makefile%,%(%tolower(%Makefile%)%)%)%)%,%
@@ -91,144 +75,67 @@
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(%if-then(%Os%, )%Gcc %Makefile%%then-if(%Framework%%then-if(%Output%, )%%then-if(%Target%, )%, for )%)%)%)%,%
+%title,%(%else-then(%title%,%(generic Gcc %Makefile% for meta Makefile project)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%OS = %os%
-PKG = ../../../../../..
-
-BMK = build/Makefile/Gcc
-MAK = projects/Makefile/Gcc
-PRJ = projects/${OS}/Makefile/Gcc
-SRC = src
-
-include $(PKG)/$(BMK)/Makedefines
-include $(PKG)/$(MAK)/Makedefines
-include $(PKG)/$(MAK)/Makefile
-include $(PKG)/$(BMK)/Makefile
-include $(PKG)/$(MAK)/%if(%Lib%,lib,app)%/%Target%/Makefile
+%#
+# build PKG
+#
+#BUILD_PKG = $(PKG)
 
 #
-# target
+# build PRJ
 #
-%OUT%TARGET = ${%Target%%Exe%_%OUT%TARGET}
-
-########################################################################
+#BUILD_PRJ = os
 
 #
-# user defines
+# build HOME
 #
-USRDEFINES += \
-${%Target%%Exe%_USRDEFINES}
+ifndef BUILD_HOME
+ifdef BUILD_PKG
+BUILD_HOME = $(BUILD_PKG)/../..
+else
+BUILD_HOME = $(HOME)
+endif
+endif
 
 #
-# user includes
+# build TYPE
 #
-USRINCLUDES += \
-${%Target%%Exe%_USRINCLUDES}
+ifndef BUILD_TYPE
+BUILD_TYPE = Debug
+endif
 
 #
-# user libdirs
+# build UNAME
 #
-USRLIBDIRS += \
-${%Target%%Exe%_USRLIBDIRS}
+ifndef UNAME
+UNAME = $(shell uname)
+endif
 
 #
-# user c++ flags
+# build OS
 #
-USRCXXFLAGS += \
-${%Target%%Exe%_USRCXXFLAGS}
+ifndef OS
+ifneq ($(UNAME), Darwin)
+OS = linux
+else
+OS = macosx
+endif
+endif
 
 #
-# user c flags
+# project OS
 #
-USRCFLAGS += \
-${%Target%%Exe%_USRCFLAGS}
-
-#
-# user ld flags
-#
-USRLDFLAGS += \
-${%Target%%Exe%_USRLDFLAGS}
-
-########################################################################
-
-#
-# %Output% C sources
-#
-%OUT%_C_SOURCES += \
-${%Target%%Exe%_%OUT%_C_SOURCES}
-
-#
-# %Output% C++ .cc sources
-#
-%OUT%_CC_SOURCES += \
-${%Target%%Exe%_%OUT%_CC_SOURCES}
-
-#
-# %Output% C++ .cxx sources
-#
-%OUT%_CXX_SOURCES += \
-${%Target%%Exe%_%OUT%_CXX_SOURCES}
-
-#
-# %Output% C++ .cpp sources
-#
-%OUT%_CPP_SOURCES += \
-${%Target%%Exe%_%OUT%_CPP_SOURCES}
-
-#
-# %Output% Objective C .m sources
-#
-%OUT%_M_SOURCES += \
-${%Target%%Exe%_%OUT%_M_SOURCES}
-
-#
-# %Output% Objective C++ .mm sources
-#
-%OUT%_MM_SOURCES += \
-${%Target%%Exe%_%OUT%_MM_SOURCES}
-
-%else(%Lib%,%(%
-%########################################################################
-
-#
-# %Output% libraries
-#
-LIBS += \
-${%Target%%Exe%_LIBS}
-
-)%)%########################################################################
-
-#
-# %Output% depends
-#
-#%OUT%DEP += \
-#$(PKG)/$(BLD)/libsomelib \
-#
-%OUT%DEP += \
-
-#
-# %Output% depend dirs
-#
-#%OUT%DEP_DIRS += \
-#../libsomelib
-#
-%OUT%DEP_DIRS += \
-
-include $(PKG)/$(MAK)/Makerules
-
-#
-# %Output% depend rules
-#
-#$(PKG)/$(BLD)/libsomelib.a:
-#	@(echo Building libsomelib.a ...;\
-#	  pushd ../libsomelib;\
-#	  ((make) || (exit 1));\
-#	  popd)
-#
+ifndef PRJ_OS
+ifdef BUILD_PRJ
+PRJ_OS = $(BUILD_PRJ)
+else
+PRJ_OS = $(OS)
+endif
+endif
 %
 %)%)%
