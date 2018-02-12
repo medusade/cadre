@@ -63,11 +63,11 @@
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
-%language,%(%else-then(%language%,%(cpp)%)%)%,%
+%language,%(%else-then(%language%,%(%if-no(%IsLanguage%,%()%,%(cpp)%)%)%)%)%,%
 %Language,%(%else-then(%Language%,%(%language%)%)%)%,%
 %LANGUAGE,%(%else-then(%LANGUAGE%,%(%toupper(%Language%)%)%)%)%,%
 %language,%(%else-then(%_Language%,%(%tolower(%Language%)%)%)%)%,%
-%style,%(%else-then(%style%,%(xos)%)%)%,%
+%style,%(%else-then(%style%,%(%if-no(%IsStyle%,%()%,%(xos)%)%)%)%)%,%
 %Style,%(%else-then(%Style%,%(%style%)%)%)%,%
 %STYLE,%(%else-then(%STYLE%,%(%toupper(%Style%)%)%)%)%,%
 %style,%(%else-then(%_Style%,%(%tolower(%Style%)%)%)%)%,%
@@ -94,8 +94,14 @@
 %%(%
 %%include(%Filepath%/QtCreator-file.t)%%
 %
-OTHER_PKG = ../../../../../../../..
+OTHER_PKG = ../../../../../../..
+OTHER_PRJ = ../../../../../..
 OTHER_BLD = ..
+
+THIRDPARTY_NAME = thirdparty
+THIRDPARTY_PKG = $${OTHER_PKG}/$${THIRDPARTY_NAME}
+THIRDPARTY_PRJ = $${OTHER_PRJ}/$${THIRDPARTY_NAME}
+THIRDPARTY_SRC = $${OTHER_PRJ}/src/$${THIRDPARTY_NAME}
 
 %parse(%Depends%,;,,,,%(%
 %%with(%
@@ -103,22 +109,50 @@ OTHER_BLD = ..
 %%(%
 %########################################################################
 # %Depends%
-%DEPENDS%_PKG = $${OTHER_PKG}/%Depends%/%Language%/%Style%
-%DEPENDS%_PRJ = $${%DEPENDS%_PKG}
-%DEPENDS%_SRC = $${%DEPENDS%_PKG}/src
+%DEPENDS%_VERSION_MAJOR = 0
+%DEPENDS%_VERSION_MINOR = 0
+%DEPENDS%_VERSION_RELEASE = 0
+%DEPENDS%_VERSION = $${%DEPENDS%_VERSION_MAJOR}.$${%DEPENDS%_VERSION_MINOR}.$${%DEPENDS%_VERSION_RELEASE}
+%DEPENDS%_NAME = %Depends%
+%DEPENDS%_GROUP = $${%DEPENDS%_NAME}
+%DEPENDS%_DIR = $${%DEPENDS%_GROUP}/$${%DEPENDS%_NAME}-$${%DEPENDS%_VERSION}
+%DEPENDS%_PKG_DIR = $${%DEPENDS%_NAME}%then-if(%Language%,/)%%then-if(%Style%,/)%
+%DEPENDS%_HOME_BUILD = $${HOME}/build/$${%DEPENDS%_NAME}
+%DEPENDS%_HOME_BUILD_INCLUDE = $${%DEPENDS%_HOME_BUILD}/include
+%DEPENDS%_HOME_BUILD_LIB = $${%DEPENDS%_HOME_BUILD}/lib
+%DEPENDS%_THIRDPARTY_PKG = $${THIRDPARTY_PKG}/$${%DEPENDS%_DIR}
+%DEPENDS%_THIRDPARTY_PRJ = $${THIRDPARTY_PRJ}/$${%DEPENDS%_DIR}
+%DEPENDS%_THIRDPARTY_SRC = $${THIRDPARTY_SRC}/$${%DEPENDS%_PKG_DIR}
+%DEPENDS%_THIRDPARTY_SRC_GROUP = $${%DEPENDS%_NAME}
+%DEPENDS%_THIRDPARTY_SRC_NAME = $${%DEPENDS%_NAME}
+%DEPENDS%_THIRDPARTY_SRC_DIR = $${THIRDPARTY_SRC}/$${%DEPENDS%_THIRDPARTY_SRC_GROUP}/$${%DEPENDS%_THIRDPARTY_SRC_NAME} 
+%DEPENDS%_PKG = $${OTHER_PKG}/$${%DEPENDS%_PKG_DIR}
+%DEPENDS%_PRJ = $${OTHER_PRJ}/$${%DEPENDS%_PKG_DIR}
+#%DEPENDS%_SRC = $${%DEPENDS%_THIRDPARTY_SRC_DIR}
+#%DEPENDS%_SRC = $${%DEPENDS%_THIRDPARTY_PKG}/src
+#%DEPENDS%_SRC = $${%DEPENDS%_THIRDPARTY_PRJ}/src
+#%DEPENDS%_SRC = $${%DEPENDS%_PKG}/src
+%DEPENDS%_SRC = $${%DEPENDS%_PRJ}/src
+
+# INCLUDEPATH
+#
+#%Depends%_INCLUDEPATH += \
+#$${%DEPENDS%_HOME_BUILD_INCLUDE} \
 
 %Depends%_INCLUDEPATH += \
 $${%DEPENDS%_SRC} \
 
+# DEFINES
+#
 %Depends%_DEFINES += \
-
-%Depends%_LIBS += \
 
 )%)%%
 %)%,Depends)%
 
 ########################################################################
 # %Framework%
+FRAMEWORK_NAME = %Framework%
+
 %FRAMEWORK%_PKG = ../../../../..
 %FRAMEWORK%_BLD = ../..
 
@@ -135,6 +169,8 @@ BUILD_CONFIG = Release
 %Framework%_DEFINES += RELEASE_BUILD
 }
 
+# INCLUDEPATH
+#
 %Framework%_INCLUDEPATH += \
 $${%FRAMEWORK%_SRC} \
 %reverse-parse(%Depends%,;,,,,%(%
@@ -145,6 +181,8 @@ $${%FRAMEWORK%_SRC} \
 %)%,Depends)%%
 %$${build_%Framework%_INCLUDEPATH} \
 
+# DEFINES
+#
 %Framework%_DEFINES += \
 %parse(%Depends%,;,,,,%(%
 %%with(%
@@ -154,9 +192,11 @@ $${%FRAMEWORK%_SRC} \
 %)%,Depends)%%
 %$${build_%Framework%_DEFINES} \
 
+# LIBS
+#
 %Framework%_LIBS += \
--L$${%FRAMEWORK%_LIB}/lib%Framework% \
--l%Framework% \
+-L$${%FRAMEWORK%_LIB}/lib$${FRAMEWORK_NAME} \
+-l$${FRAMEWORK_NAME} \
 
 %
 %)%)%

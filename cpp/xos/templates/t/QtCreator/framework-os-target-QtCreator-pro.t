@@ -106,9 +106,10 @@ include(../../../../QtCreator/%Framework%.pri)
 include(../../%Framework%.pri)
 include(../../../../QtCreator/%out%/%lib%%Target%/%lib%%Target%.pri)
 
-TARGET = $${%lib%%Target%%exe%_TARGET}
-%if(%Lib%,%(TEMPLATE = lib
-CONFIG += staticlib)%)%
+TARGET = $${%lib%%Target%%exe%_TARGET}%
+%%if(%Lib%,%(
+TEMPLATE = $${%lib%%Target%_TEMPLATE}
+CONFIG += $${%lib%%Target%_CONFIG})%)%
 
 ########################################################################
 INCLUDEPATH += \

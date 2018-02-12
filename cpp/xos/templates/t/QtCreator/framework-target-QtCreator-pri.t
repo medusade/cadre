@@ -102,9 +102,13 @@
 %%(%
 %%include(%Filepath%/QtCreator-file.t)%%
 %
-%lib%%Target%%exe%_TARGET = %Target%
-
 ########################################################################
+# %lib%%Target%
+%lib%%Target%%exe%_TARGET = %Target%%
+%%if(%Lib%,%(
+%lib%%Target%%exe%_TEMPLATE = lib
+%lib%%Target%%exe%_CONFIG += staticlib)%)%
+
 %lib%%Target%%exe%_INCLUDEPATH += \
 $${%Framework%_INCLUDEPATH} \
 
@@ -112,7 +116,6 @@ $${%Framework%_INCLUDEPATH} \
 $${%Framework%_DEFINES} \
 
 ########################################################################
-# %Framework%
 #%lib%%Target%%exe%_HEADERS += \
 #$${%FRAMEWORK%_SRC}/xos/base/Base.hpp \
 

@@ -89,7 +89,9 @@
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%
+%OTHER_VERSION_PKG = ${PKG}/../..
+OTHER_DEPENDS_PKG = ${PKG}/../../..
+
 %FRAMEWORK%_PKG = ${PKG}
 %FRAMEWORK%_SRC = ${%FRAMEWORK%_PKG}/src
 %FRAMEWORK%_BLD = ${%FRAMEWORK%_PKG}/${BLD}/${BUILD_TYPE}
@@ -103,7 +105,17 @@
 %%(%
 %########################################################################
 # %Depends%
-%DEPENDS%_PKG = ${%FRAMEWORK%_PKG}/../../../%Depends%/%Language%/%Style%
+%DEPENDS%_VERSION_MAJOR = 0
+%DEPENDS%_VERSION_MINOR = 0
+%DEPENDS%_VERSION_RELEASE = 0
+%DEPENDS%_VERSION = ${%DEPENDS%_VERSION_MAJOR}.${%DEPENDS%_VERSION_MINOR}.${%DEPENDS%_VERSION_RELEASE}
+%DEPENDS%_NAME = %Depends%
+%DEPENDS%_GROUP = ${%DEPENDS%_NAME}
+%DEPENDS%_VERSION_DIR = ${%DEPENDS%_GROUP}/${%DEPENDS%_NAME}-${%DEPENDS%_VERSION}
+%DEPENDS%_DEPENDS_DIR = ${%DEPENDS%_NAME}/%Language%/%Style%
+
+#%DEPENDS%_PKG = ${OTHER_VERSION_PKG}/${%DEPENDS%_VERSION_DIR}
+%DEPENDS%_PKG = ${OTHER_DEPENDS_PKG}/${%DEPENDS%_DEPENDS_DIR}
 %DEPENDS%_SRC = ${%DEPENDS%_PKG}/src
 %DEPENDS%_BLD = ${%DEPENDS%_PKG}/${BLD}/${BUILD_TYPE}
 %DEPENDS%_LIB = ${%DEPENDS%_BLD}/lib

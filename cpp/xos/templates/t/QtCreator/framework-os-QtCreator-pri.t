@@ -59,7 +59,7 @@
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
-%os,%(%else-then(%os%,%(Linux)%)%)%,%
+%os,%(%else-then(%os%,%(%else-no(%IsOs%,%(Linux)%,%(Os)%)%)%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
@@ -85,21 +85,35 @@
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/QtCreator-file.t)%%
-%%FRAMEWORK%_OS = %os%
-#QMAKE_CXXFLAGS += -std=c++11
-#QMAKE_CXXFLAGS += -std=c++0x
+%%if-no(%IsOs%,%(UNAME = $$system(uname)
+
+contains(UNAME,Darwin) {
+%FRAMEWORK%_OS = macosx
+} else {
+%FRAMEWORK%_OS = linux
+}
+)%,%(%FRAMEWORK%_OS = %os%)%)%
+#CONFIG += c++11
+#CONFIG += c++0x
 
 %parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
 %%(########################################################################
 # %Depends%
-%DEPENDS%_BLD = $${OTHER_BLD}/$${%DEPENDS%_PKG}/build/$${%FRAMEWORK%_OS}/QtCreator/$${BUILD_CONFIG}
-%DEPENDS%_LIB = $${%DEPENDS%_BLD}/lib
+%DEPENDS%_THIRDPARTY_PKG_BLD = $${%DEPENDS%_THIRDPARTY_PKG}/build/$${%FRAMEWORK%_OS}/QtCreator/$${BUILD_CONFIG}
+%DEPENDS%_THIRDPARTY_PRJ_BLD = $${%DEPENDS%_THIRDPARTY_PRJ}/build/$${%FRAMEWORK%_OS}/QtCreator/$${BUILD_CONFIG}
+%DEPENDS%_PKG_BLD = $${OTHER_BLD}/$${%DEPENDS%_PKG}/build/$${%FRAMEWORK%_OS}/QtCreator/$${BUILD_CONFIG}
+%DEPENDS%_PRJ_BLD = $${OTHER_BLD}/$${%DEPENDS%_PRJ}/build/$${%FRAMEWORK%_OS}/QtCreator/$${BUILD_CONFIG}
+#%DEPENDS%_LIB = $${%DEPENDS%_THIRDPARTY_PKG_BLD}/lib
+#%DEPENDS%_LIB = $${%DEPENDS%_THIRDPARTY_PRJ_BLD}/lib
+#%DEPENDS%_LIB = $${%DEPENDS%_PKG_BLD}/lib
+#%DEPENDS%_LIB = $${%DEPENDS%_PRJ_BLD}/lib
+%DEPENDS%_LIB = $${%FRAMEWORK%_LIB}
 
 %Depends%_LIBS += \
--L$${%DEPENDS%_LIB}/lib%Depends% \
--l%Depends% \
+-L$${%DEPENDS%_LIB}/lib$${%DEPENDS%_NAME} \
+-l$${%DEPENDS%_NAME} \
 
 )%)%)%,Depends)%%
 %########################################################################

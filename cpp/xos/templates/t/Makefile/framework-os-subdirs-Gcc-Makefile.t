@@ -71,7 +71,11 @@
 %Target,%(%else-then(%Target%,%(%target%)%)%)%,%
 %TARGET,%(%else-then(%TARGET%,%(%toupper(%Target%)%)%)%)%,%
 %target,%(%else-then(%_Target%,%(%tolower(%Target%)%)%)%)%,%
-%os,%(%else-then(%os%,%(%else-then(%Os_input%,%(Linux)%)%)%)%)%,%
+%isos,%(%else-then(%isos%,%()%)%)%,%
+%IsOs,%(%else-then(%IsOs%,%(%isos%)%)%)%,%
+%ISOS,%(%else-then(%ISOS%,%(%toupper(%IsOs%)%)%)%)%,%
+%isos,%(%else-then(%_IsOs%,%(%tolower(%IsOs%)%)%)%)%,%
+%os,%(%else-then(%os%,%(%else-then(%Os_input%,%(%else-no(%IsOs%,Linux)%)%)%)%)%)%,%
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
@@ -87,17 +91,18 @@
 %File,%(%else-then(%File%,%(%file%)%)%)%,%
 %FILE,%(%else-then(%FILE%,%(%toupper(%File%)%)%)%)%,%
 %file,%(%else-then(%_File%,%(%tolower(%File%)%)%)%)%,%
-%title,%(%else-then(%title%,%(%if-then(%Os%, )%Gcc %Makefile%%then-if(%Framework%%then-if(%Target%, )%, for )%)%)%)%,%
+%title,%(%else-then(%title%,%(%if-then(%else-then(%Os%,Os)%, )%Gcc %Makefile%%then-if(%Framework%%then-if(%Target%, )%, for )%)%)%)%,%
 %Title,%(%else-then(%Title%,%(%title%)%)%)%,%
 %TITLE,%(%else-then(%TITLE%,%(%toupper(%Title%)%)%)%)%,%
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%OS = %os%
-PKG = ../../../..
+%%if(%os%,%(OS = %os%
+)%)%%
+%PKG = ../../../..
 
 MAK = projects/Makefile/Gcc
-PRJ = projects/${OS}/Makefile/Gcc
+PRJ = projects/%if(%os%,${OS},os)%/Makefile/Gcc
 SRC = src
 
 include $(PKG)/$(MAK)/Makedefines
