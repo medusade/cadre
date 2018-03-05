@@ -112,22 +112,50 @@ TEMPLATE = $${%lib%%Target%_TEMPLATE}
 CONFIG += $${%lib%%Target%_CONFIG})%)%
 
 ########################################################################
+# INCLUDEPATH
+#
 INCLUDEPATH += \
 $${%lib%%Target%%exe%_INCLUDEPATH} \
 
+# DEFINES
+# 
 DEFINES += \
 $${%lib%%Target%%exe%_DEFINES} \
 
 ########################################################################
+# OBJECTIVE_HEADERS
+#
+OBJECTIVE_HEADERS += \
+$${%lib%%Target%%exe%_OBJECTIVE_HEADERS} \
+
+# OBJECTIVE_SOURCES
+#
+SOURCES += \
+$${%lib%%Target%%exe%_OBJECTIVE_SOURCES} \
+
+########################################################################
+# HEADERS
+#
 HEADERS += \
 $${%lib%%Target%%exe%_HEADERS} \
 
+# SOURCES
+#
 SOURCES += \
 $${%lib%%Target%%exe%_SOURCES} \
+$${OBJECTIVE_SOURCES} \
 
 ########################################################################
-%else(%lib%,%(LIBS += \
+%else(%lib%,%(# FRAMEWORKS
+#
+FRAMEWORKS += \
+$${%lib%%Target%%exe%_FRAMEWORKS} \
+
+# LIBS
+#
+LIBS += \
 $${%lib%%Target%%exe%_LIBS} \
+$${FRAMEWORKS} \
 )%)%
 %
 %)%)%

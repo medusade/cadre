@@ -104,26 +104,55 @@
 %
 ########################################################################
 # %lib%%Target%
+
+# %lib%%Target%%exe% TARGET
+#
 %lib%%Target%%exe%_TARGET = %Target%%
 %%if(%Lib%,%(
 %lib%%Target%%exe%_TEMPLATE = lib
 %lib%%Target%%exe%_CONFIG += staticlib)%)%
 
+# %lib%%Target%%exe% INCLUDEPATH
+#
 %lib%%Target%%exe%_INCLUDEPATH += \
 $${%Framework%_INCLUDEPATH} \
 
+# %lib%%Target%%exe% DEFINES
+#
 %lib%%Target%%exe%_DEFINES += \
 $${%Framework%_DEFINES} \
 
 ########################################################################
-#%lib%%Target%%exe%_HEADERS += \
-#$${%FRAMEWORK%_SRC}/xos/base/Base.hpp \
+# %lib%%Target%%exe% OBJECTIVE_HEADERS
+#
+#%lib%%Target%%exe%_OBJECTIVE_HEADERS += \
+#$${%FRAMEWORK%_SRC}/%Framework%/base/Base.hh \
 
-#%lib%%Target%%exe%_SOURCES += \
-#$${%FRAMEWORK%_SRC}/xos/base/Base.cpp \
+# %lib%%Target%%exe% OBJECTIVE_SOURCES
+#
+#%lib%%Target%%exe%_OBJECTIVE_SOURCES += \
+#$${%FRAMEWORK%_SRC}/%Framework%/base/Base.mm \
 
 ########################################################################
-%else(%lib%,%(%lib%%Target%%exe%_LIBS += \
+# %lib%%Target%%exe% HEADERS
+#
+#%lib%%Target%%exe%_HEADERS += \
+#$${%FRAMEWORK%_SRC}/%Framework%/base/Base.hpp \
+
+# %lib%%Target%%exe% SOURCES
+#
+#%lib%%Target%%exe%_SOURCES += \
+#$${%FRAMEWORK%_SRC}/%Framework%/base/Base.cpp \
+
+########################################################################
+%else(%lib%,%(# %lib%%Target%%exe% FRAMEWORKS
+#
+%lib%%Target%%exe%_FRAMEWORKS += \
+$${%Framework%_FRAMEWORKS} \
+
+# %lib%%Target%%exe% LIBS
+#
+%lib%%Target%%exe%_LIBS += \
 $${%Framework%_LIBS} \
 )%)%
 %

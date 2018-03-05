@@ -94,27 +94,41 @@
 #
 # pkg-config --cflags --libs %Depends%
 #
+
+# build %Depends% INCLUDEPATH
+#
 build_%Depends%_INCLUDEPATH += \
 
+# build %Depends% DEFINES
+#
 build_%Depends%_DEFINES += \
 
+# build %Depends% LIBS
+#
 build_%Depends%_LIBS += \
 
 )%)%)%,Depends)%%
 %########################################################################
 # %Framework%
+
+# build %Framework% INCLUDEPATH
+#
 build_%Framework%_INCLUDEPATH += \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%
 %%($${build_%Depends%_INCLUDEPATH} \
 )%)%)%,Depends)%
 
+# build %Framework% DEFINES
+#
 build_%Framework%_DEFINES += \
 %parse(%Depends%,;,,,,%(%
 %%with(%
 %%($${build_%Depends%_DEFINES} \
 )%)%)%,Depends)%
 
+# build %Framework% LIBS
+#
 build_%Framework%_LIBS += \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%

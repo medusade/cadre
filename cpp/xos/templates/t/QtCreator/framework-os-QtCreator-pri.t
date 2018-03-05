@@ -111,6 +111,8 @@ contains(UNAME,Darwin) {
 #%DEPENDS%_LIB = $${%DEPENDS%_PRJ_BLD}/lib
 %DEPENDS%_LIB = $${%FRAMEWORK%_LIB}
 
+# %Depends% LIBS
+#
 %Depends%_LIBS += \
 -L$${%DEPENDS%_LIB}/lib$${%DEPENDS%_NAME} \
 -l$${%DEPENDS%_NAME} \
@@ -118,10 +120,17 @@ contains(UNAME,Darwin) {
 )%)%)%,Depends)%%
 %########################################################################
 # %Framework%
+
+# %Framework% INCLUDEPATH
+#
 %Framework%_INCLUDEPATH += \
 
+# %Framework% DEFINES
+#
 %Framework%_DEFINES += \
 
+# %Framework% LIBS
+#
 %Framework%_LIBS += \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%
@@ -132,6 +141,12 @@ contains(UNAME,Darwin) {
 %$${build_%Framework%_LIBS} \
 -lpthread \
 -ldl \
-%else(%equal(macosx,%os%)%,-lrt \)%
+%if-no(%IsOs%,%(
+contains(%FRAMEWORK%_OS,linux) {
+%Framework%_LIBS += \
+-lrt
+} else {
+})%,%(%else(%equal(macosx,%os%)%,-lrt)%)%)%
 
+%
 %)%)%

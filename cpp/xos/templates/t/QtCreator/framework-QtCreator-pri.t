@@ -134,7 +134,7 @@ THIRDPARTY_SRC = $${OTHER_PRJ}/src/$${THIRDPARTY_NAME}
 #%DEPENDS%_SRC = $${%DEPENDS%_PKG}/src
 %DEPENDS%_SRC = $${%DEPENDS%_PRJ}/src
 
-# INCLUDEPATH
+# %Depends% INCLUDEPATH
 #
 #%Depends%_INCLUDEPATH += \
 #$${%DEPENDS%_HOME_BUILD_INCLUDE} \
@@ -142,7 +142,7 @@ THIRDPARTY_SRC = $${OTHER_PRJ}/src/$${THIRDPARTY_NAME}
 %Depends%_INCLUDEPATH += \
 $${%DEPENDS%_SRC} \
 
-# DEFINES
+# %Depends% DEFINES
 #
 %Depends%_DEFINES += \
 
@@ -161,6 +161,8 @@ FRAMEWORK_NAME = %Framework%
 %FRAMEWORK%_LIB = $${%FRAMEWORK%_BLD}/lib
 %FRAMEWORK%_SRC = $${%FRAMEWORK%_PKG}/src
 
+# %Framework% BUILD_CONFIG
+#
 CONFIG(debug, debug|release) {
 BUILD_CONFIG = Debug
 %Framework%_DEFINES += DEBUG_BUILD
@@ -169,7 +171,7 @@ BUILD_CONFIG = Release
 %Framework%_DEFINES += RELEASE_BUILD
 }
 
-# INCLUDEPATH
+# %Framework% INCLUDEPATH
 #
 %Framework%_INCLUDEPATH += \
 $${%FRAMEWORK%_SRC} \
@@ -181,7 +183,7 @@ $${%FRAMEWORK%_SRC} \
 %)%,Depends)%%
 %$${build_%Framework%_INCLUDEPATH} \
 
-# DEFINES
+# %Framework% DEFINES
 #
 %Framework%_DEFINES += \
 %parse(%Depends%,;,,,,%(%
@@ -192,7 +194,7 @@ $${%FRAMEWORK%_SRC} \
 %)%,Depends)%%
 %$${build_%Framework%_DEFINES} \
 
-# LIBS
+# %Framework% LIBS
 #
 %Framework%_LIBS += \
 -L$${%FRAMEWORK%_LIB}/lib$${FRAMEWORK_NAME} \
