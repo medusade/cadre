@@ -63,12 +63,12 @@
 %Os,%(%else-then(%Os%,%(%os%)%)%)%,%
 %OS,%(%else-then(%OS%,%(%toupper(%Os%)%)%)%)%,%
 %os,%(%else-then(%_Os%,%(%tolower(%Os%)%)%)%)%,%
-%language,%(%else-then(%language%,%(cpp)%)%)%,%
-%Language,%(%else-then(%Language%,%(%language%)%)%)%,%
+%language,%(%else-then(%language%,%(%else-no(%IsLanguage%,cpp)%)%)%)%,%
+%Language,%(%else-then(%else-no(%IsLanguage%,%Language%)%,%(%language%)%)%)%,%
 %LANGUAGE,%(%else-then(%LANGUAGE%,%(%toupper(%Language%)%)%)%)%,%
 %language,%(%else-then(%_Language%,%(%tolower(%Language%)%)%)%)%,%
-%style,%(%else-then(%style%,%(xos)%)%)%,%
-%Style,%(%else-then(%Style%,%(%style%)%)%)%,%
+%style,%(%else-then(%style%,%(%else-no(%IsStyle%,%(xos)%)%)%)%)%,%
+%Style,%(%else-then(%else-no(%IsStyle%,%(%Style%)%)%,%(%style%)%)%)%,%
 %STYLE,%(%else-then(%STYLE%,%(%toupper(%Style%)%)%)%)%,%
 %style,%(%else-then(%_Style%,%(%tolower(%Style%)%)%)%)%,%
 %makefile,%(%else-then(%makefile%,%(Makefile)%)%)%,%
@@ -89,8 +89,10 @@
 %title,%(%else-then(%_Title%,%(%tolower(%Title%)%)%)%)%,%
 %%(%
 %%include(%Filepath%/Makefile-file.t)%%
-%OTHER_VERSION_PKG = ${PKG}/../..
-OTHER_DEPENDS_PKG = ${PKG}/../../..
+%OTHER_VERSION_PKG = ${PKG}%if(%Language%,/..)%%if(%Style%,/..)%
+OTHER_DEPENDS_PKG = ${PKG}%if(%Language%,/..)%%if(%Style%,/..)%/..
+OTHER_THIRDPARTY_NAME = thirdparty
+OTHER_THIRDPARTY_VERSION_PKG = ${OTHER_VERSION_PKG}/${OTHER_THIRDPARTY_NAME}
 
 %FRAMEWORK%_PKG = ${PKG}
 %FRAMEWORK%_SRC = ${%FRAMEWORK%_PKG}/src
@@ -112,52 +114,98 @@ OTHER_DEPENDS_PKG = ${PKG}/../../..
 %DEPENDS%_NAME = %Depends%
 %DEPENDS%_GROUP = ${%DEPENDS%_NAME}
 %DEPENDS%_VERSION_DIR = ${%DEPENDS%_GROUP}/${%DEPENDS%_NAME}-${%DEPENDS%_VERSION}
-%DEPENDS%_DEPENDS_DIR = ${%DEPENDS%_NAME}/%Language%/%Style%
+%DEPENDS%_DEPENDS_DIR = ${%DEPENDS%_NAME}%then-if(%Language%,/)%%then-if(%Style%,/)%
 
+#%DEPENDS%_PKG = ${OTHER_THIRDPARTY_VERSION_PKG}/${%DEPENDS%_VERSION_DIR}
 #%DEPENDS%_PKG = ${OTHER_VERSION_PKG}/${%DEPENDS%_VERSION_DIR}
 %DEPENDS%_PKG = ${OTHER_DEPENDS_PKG}/${%DEPENDS%_DEPENDS_DIR}
+#%DEPENDS%_SRC = ${%DEPENDS%_PKG}/src/${BN_GROUP}/${BN_NAME}
 %DEPENDS%_SRC = ${%DEPENDS%_PKG}/src
 %DEPENDS%_BLD = ${%DEPENDS%_PKG}/${BLD}/${BUILD_TYPE}
 %DEPENDS%_LIB = ${%DEPENDS%_BLD}/lib
 %DEPENDS%_BIN = ${%DEPENDS%_BLD}/bin
 
+# %Depends% USRDEFINES
+#
+%Depends%_USRDEFINES += \
+
+# %Depends% USRINCLUDES
+#
+%Depends%_USRINCLUDES += \
+-I${%DEPENDS%_SRC} \
+
+# %Depends% USRCXXFLAGS
+#
+%Depends%_USRCXXFLAGS += \
+
+# %Depends% USRLIBDIRS
+#
+%Depends%_USRLIBDIRS += \
+-L${%DEPENDS%_LIB} \
+
+# %Depends% LIBS
+#
+%Depends%_LIBS += \
+-l%Depends% \
+
+# %Depends% FRAMEWORKS
+#
+%Depends%_FRAMEWORKS += \
+
 )%)%)%,Depends)%
 ########################################################################
 # %Framework%
+
+# %Framework% USRDEFINES
+#
 %Framework%_USRDEFINES += \
 %parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
-%%()%)%)%,Depends)%%
+%%(${%Depends%_USRDEFINES} \
+)%)%)%,Depends)%%
 %${build_%Framework%_USRDEFINES} \
 
+# %Framework% USRINCLUDES
+#
 %Framework%_USRINCLUDES += \
 -I${%FRAMEWORK%_SRC} \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
-%%(-I${%DEPENDS%_SRC} \
+%%(${%Depends%_USRINCLUDES} \
 )%)%)%,Depends)%%
 %${build_%Framework%_USRINCLUDES} \
 
+# %Framework% USRCXXFLAGS
+#
 %Framework%_USRCXXFLAGS += \
-${build_%Framework%_USRCXXFLAGS} \
+%parse(%Depends%,;,,,,%(%
+%%with(%
+%DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
+%%(${%Depends%_USRCXXFLAGS} \
+)%)%)%,Depends)%%
+%${build_%Framework%_USRCXXFLAGS} \
 
+# %Framework% USRLIBDIRS
+#
 %Framework%_USRLIBDIRS += \
 -L${%FRAMEWORK%_LIB} \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
-%%(-L${%DEPENDS%_LIB} \
+%%(${%Depends%_USRLIBDIRS} \
 )%)%)%,Depends)%%
 %${build_%Framework%_USRLIBDIRS} \
 
+# %Framework% LIBS
+#
 %Framework%_LIBS += \
 -l%Framework% \
 %reverse-parse(%Depends%,;,,,,%(%
 %%with(%
 %DEPENDS,%(%else-then(%_DEPENDS%,%(%toupper(%Depends%)%)%)%)%,%
-%%(-l%Depends% \
+%%(${%Depends%_LIBS} \
 )%)%)%,Depends)%%
 %${build_%Framework%_LIBS} \
 

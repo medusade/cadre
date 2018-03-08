@@ -87,6 +87,34 @@
 #
 # pkg-config --cflags --libs %Depends%
 #
+
+ifndef USE_HOME_BUILD_%Depends%
+USE_HOME_BUILD_%Depends% = no
+endif
+
+ifeq ($(USE_HOME_BUILD_%Depends%),yes)
+#
+# home build %Depends%
+#
+build_%Depends%_USRDEFINES += \
+
+build_%Depends%_USRINCLUDES += \
+-I$(HOME)/build/%Depends%/include \
+
+build_%Depends%_USRCXXFLAGS += \
+
+build_%Depends%_USRLIBDIRS += \
+-L$(HOME)/build/%Depends%/lib \
+
+build_%Depends%_LIBS += \
+-l%Depends% \
+
+build_%Depends%_FRAMEWORKS += \
+
+else
+#
+# build %Depends%
+#
 build_%Depends%_USRDEFINES += \
 
 build_%Depends%_USRINCLUDES += \
@@ -97,29 +125,50 @@ build_%Depends%_USRLIBDIRS += \
 
 build_%Depends%_LIBS += \
 
+build_%Depends%_FRAMEWORKS += \
+
+endif
 )%,Depends)%%
 %
 ########################################################################
 # %Framework%
+
+# build %Framework% USRDEFINES
+#
 build_%Framework%_USRDEFINES += \
 %parse(%Depends%,;,,,,%(${build_%Depends%_USRDEFINES} \
 )%,Depends)%
 
+# build %Framework% USRINCLUDES
+#
 build_%Framework%_USRINCLUDES += \
 %reverse-parse(%Depends%,;,,,,%(${build_%Depends%_USRINCLUDES} \
 )%,Depends)%
 
+# build %Framework% USRCXXFLAGS
+#
 build_%Framework%_USRCXXFLAGS += \
 %parse(%Depends%,;,,,,%(${build_%Depends%_USRCXXFLAGS} \
 )%,Depends)%
 
+# build %Framework% USRLIBDIRS
+#
 build_%Framework%_USRLIBDIRS += \
 %reverse-parse(%Depends%,;,,,,%(${build_%Depends%_USRLIBDIRS} \
 )%,Depends)%
 
+# build %Framework% FRAMEWORKS
+#
+build_%Framework%_FRAMEWORKS += \
+%reverse-parse(%Depends%,;,,,,%(${build_%Depends%_FRAMEWORKS} \
+)%,Depends)%
+
+# build %Framework% LIBS
+#
 build_%Framework%_LIBS += \
 %reverse-parse(%Depends%,;,,,,%(${build_%Depends%_LIBS} \
-)%,Depends)%
+)%,Depends)%%
+%${build_%Framework%_FRAMEWORKS}
 
 %
 %)%)%

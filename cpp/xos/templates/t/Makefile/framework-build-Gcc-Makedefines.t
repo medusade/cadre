@@ -103,7 +103,7 @@ endif
 # build OS
 #
 ifndef OS
-ifneq ($(UNAME), Darwin)
+ifneq ($(UNAME),Darwin)
 OS = linux
 else
 OS = macosx
