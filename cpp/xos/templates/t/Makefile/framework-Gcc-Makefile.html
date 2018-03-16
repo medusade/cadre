@@ -49,7 +49,7 @@
         <!-- form                                                                   -->
         <!--========================================================================-->
         <form
-         Action="form-html.t"
+         Action="framework-Gcc-Makefile.t"
          Method="POST"
          Name="Form"
          onSubmit="return setFormSubmit(getFormValue2('Template','FormAction','Form'),getFormValue('FormMethod','Form'),'Form')">
@@ -57,7 +57,10 @@
             </br>
 
             Depends: <input name="Depends" value=""/><br/>
-            Framework: <input name="Framework" value=""/><br/>
+            Framework: <input name="Framework" value=""/></br>
+            Version: <input name="version_Major" value="0"/>
+            .<input name="version_Minor" value="0"/>
+            .<input name="version_Release" value="0"/><br/>
             Target: <input name="Target" value=""/><br/>
             Os: <input name="Os_input" value=""/><select name="Os">
             <option value=""></option>
@@ -90,6 +93,9 @@
             <option value="meta-framework-Gcc-Makedefines.t">Meta-Makedefines</option>
             <option value="meta-framework-Gcc-Makerules.t">Meta-Makerules</option>
             <option value="meta-framework-Gcc-Makedirs.t">Meta-Makedirs</option>
+            <option value="meta-framework-config.t">Meta-config</option>
+            <option value=""/>
+            <option value="thirdparty-framework-Gcc-Makefile.t">Thirdparty-Makefile</option>
             </select><br/>
             <br/>
 
