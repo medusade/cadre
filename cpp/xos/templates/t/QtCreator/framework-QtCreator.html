@@ -64,9 +64,9 @@
             <option value="Linux">Linux</option>
             <option value="MacOSX">MacOSX</option>
             <option value="Windows">Windows</option>
-            </select> [Linux] <input type="checkbox" name="IsOs" value="no"/>no<br/>
-            Style: <input name="Style" value=""/> [xos] <input type="checkbox" name="IsStyle" value="no"/>no<br/>
-            Language: <input name="Language" value=""/> [cpp] <input type="checkbox" name="IsLanguage" value="no"/>no<br/>
+            </select> [Linux] <input type="checkbox" name="IsOs" value="no" checked="yes"/>no<br/>
+            Style: <input name="Style" value=""/> [xos] <input type="checkbox" name="IsStyle" value="no" checked="yes"/>no<br/>
+            Language: <input name="Language" value=""/> [cpp] <input type="checkbox" name="IsLanguage" value="no" checked="yes"/>no<br/>
             Template: <select name="Template">
             <option value="framework-QtCreator-pri.t">QtCreator.pri</option>
             <option value="framework-os-QtCreator-pri.t">Os-QtCreator.pri</option>
@@ -89,9 +89,12 @@
             Method: <input name="FormMethod" value="POST"/><br/>
             <input type="hidden" name="Name" value="Form"/>
             <input type="hidden" name="onSublit" value="return setFormSubmit(getFormValue('%Name%Action','%Name%'),getFormValue('%Name%Method','%Name%'),'%Name%')"/>
-            <hr/>
+            <br/>
             <input type="submit" name="submit" value="submit"/><br/>
         </form>
+        <hr/>
+        <a href="../Makefile/framework-Gcc-Makefile.html">
+        <b>Create Framework Gcc Makefile<b></a><br/>
     </body>
 </html>
 
